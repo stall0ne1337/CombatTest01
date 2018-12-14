@@ -1,0 +1,59 @@
+﻿<Window x:Class="CombatTest01.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CombatTest01"
+        mc:Ignorable="d" Width="1116" Height="808"
+        Title="Tank Game by Stallone">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Templates\WallTemplate.xaml" />
+                <ResourceDictionary Source="Templates\TankTemplate.xaml" />
+                <ResourceDictionary Source="Templates\ProjectileTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:MainFrameEntityTemplateSelector x:Key="MainFrameEntityTemplateSelector" 
+                                               WallTemplate="{StaticResource WallTemplate}"
+                                               TankTemplate="{StaticResource TankTemplate}" 
+                                               ProjectileTemplate="{StaticResource ProjectileTemplate}" />
+        </ResourceDictionary>        
+    </Window.Resources>
+
+    <Grid Background="#871C08">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="700" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding PlayerA.Score}" Grid.Column="0" FontSize="90" FontFamily="OCR A Extended" FontWeight="Bold" 
+                   Foreground="#8FD354" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 3" />
+        <TextBlock Text="{Binding PlayerB.Score}" Grid.Column="1" FontSize="90" FontFamily="OCR A Extended" FontWeight="Bold" 
+                   Foreground="#4A50DE" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 3" />
+
+        <Button x:Name="btn_reset" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" Click="btn_reset_Click"
+                Background="Transparent" BorderBrush="Transparent" Content="RESET" FontFamily="OCR A Extended" FontSize="15" />
+
+        <ItemsControl Grid.Row="1" Grid.ColumnSpan="2" ItemTemplateSelector="{StaticResource MainFrameEntityTemplateSelector}" 
+                      ItemsSource="{Binding EntityCollection.Items}" Height="700" Width="1100">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding Path=Position.PosX}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Path=Position.PosY}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+    </Grid>    
+</Window>
